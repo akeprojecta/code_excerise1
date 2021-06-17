@@ -1,1 +1,3 @@
 rootProject.name = 'exercise'
+include 'integration-test'
+
