@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,13 +38,13 @@ public class EmployeeController {
   }
 
   @PostMapping
-  public void saveEmployee(EmployeeRequestDTO employeeRequestDTO) {
+  public void saveEmployee(@RequestBody EmployeeRequestDTO employeeRequestDTO) {
     Employee employee = employeeMapper.EmployeeRequestDTOToEmployee(employeeRequestDTO);
     employeeService.saveEmployee(employee);
   }
 
   @PutMapping(path = "/{id}")
-  public void updateEmployee(@PathVariable("id") int id, EmployeeRequestDTO employeeRequestDTO) {
+  public void updateEmployee(@PathVariable("id") int id, @RequestBody EmployeeRequestDTO employeeRequestDTO) {
     Employee employee = employeeMapper.EmployeeRequestDTOToEmployee(employeeRequestDTO);
     employeeService.updateEmployee(id, employee);
   }

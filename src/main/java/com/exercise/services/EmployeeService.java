@@ -1,5 +1,6 @@
 package com.exercise.services;
 
+import com.exercise.exception.RecordNotFoundException;
 import com.exercise.model.Employee;
 import com.exercise.repository.EmployeeRepository;
 import java.util.List;
@@ -26,7 +27,7 @@ public class EmployeeService {
     if (employeeOptional.isPresent()) {
       return employeeOptional.get();
     }
-    return Employee.builder().build();
+    throw new RecordNotFoundException();
   }
 
   public void saveEmployee(Employee employee) {
@@ -36,6 +37,7 @@ public class EmployeeService {
   public void updateEmployee(long id, Employee employee) {
     Optional<Employee> employeeOptional = employeeRepository.findById(id);
     if (employeeOptional.isPresent()) {
+      employee.setId(id);
       employeeRepository.save(employee);
     }
   }

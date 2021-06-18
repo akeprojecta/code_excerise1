@@ -16,8 +16,3 @@ spring:
     password:
     change-log: classpath:db/changelog/liquidbase-changelog.xml
 
-    #logging:
-#  level:
-#    org:
-#      springframework:
-#        security: DEBUG
