@@ -34,11 +34,28 @@ class EmployeeIntegrationTest {
 
   @BeforeEach
   void setupEach() {
-    employeeRepository.deleteAll();
     mvc = MockMvcBuilders
         .webAppContextSetup(context)
         .apply(springSecurity())
         .build();
+  }
+
+  @WithMockUser(value = "spring")
+  @Test
+  void should_return_all_employee_when_send_GET_request() throws Exception {
+
+    //Given
+    initializeDataInH2();
+
+    //When
+    //Then
+    mvc.perform(get("/v1/employee/"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$[0].name").value("John"))
+        .andExpect(jsonPath("$[0].surname").value("Snow"))
+        .andExpect(jsonPath("$[1].name").value("John"))
+        .andExpect(jsonPath("$[1].surname").value("Smith"));
   }
 
   @WithMockUser(value = "spring")
@@ -54,24 +71,6 @@ class EmployeeIntegrationTest {
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json("{\"id\":1,\"name\":\"John\",\"surname\":\"Snow\"}"));
-  }
-
-  @WithMockUser(value = "spring")
-  @Test
-  void should_return_all_employee_when_send_GET_request_given_employee_id() throws Exception {
-
-    //Given
-    initializeDataInH2();
-
-    //When
-    //Then
-    mvc.perform(get("/v1/employee/"))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$[0].name").value("John"))
-        .andExpect(jsonPath("$[0].surname").value("Snow"))
-        .andExpect(jsonPath("$[1].name").value("John"))
-        .andExpect(jsonPath("$[1].surname").value("Smith"));
   }
 
   private void initializeDataInH2() {
