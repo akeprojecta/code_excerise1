@@ -4,6 +4,12 @@ plugins {
 	id 'java'
 }
 
+compileJava {
+	options.compilerArgs = [
+			'-Amapstruct.defaultComponentModel=spring'
+	]
+}
+
 group = 'com.exercise'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
@@ -20,17 +26,31 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.liquibase:liquibase-core'
-	implementation("com.google.guava:guava:30.1.1-jre")
+
+	//Spring security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
+
+	//Database migration
+	implementation 'org.liquibase:liquibase-core'
+
+	//To include google library
+	implementation("com.google.guava:guava:30.1.1-jre")
+
+	//Mapstruct
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+
+	//Swagger
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.9'
+
+	//Lombok need to be executed before mapstruct
+	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
-	annotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
